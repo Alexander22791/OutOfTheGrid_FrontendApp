@@ -1,0 +1,212 @@
+[
+    {
+        "Method":  "GET",
+        "Path":  "/api/admin/cities",
+        "File":  "AdminController.java"
+    },
+    {
+        "Method":  "POST",
+        "Path":  "/api/admin/cities",
+        "File":  "AdminController.java"
+    },
+    {
+        "Method":  "GET",
+        "Path":  "/api/admin/coupons",
+        "File":  "AdminCatalogController.java"
+    },
+    {
+        "Method":  "POST",
+        "Path":  "/api/admin/coupons",
+        "File":  "AdminCatalogController.java"
+    },
+    {
+        "Method":  "DELETE",
+        "Path":  "/api/admin/coupons/{id}",
+        "File":  "AdminCatalogController.java"
+    },
+    {
+        "Method":  "GET",
+        "Path":  "/api/admin/courses",
+        "File":  "AdminCourseController.java"
+    },
+    {
+        "Method":  "POST",
+        "Path":  "/api/admin/courses",
+        "File":  "AdminCourseController.java"
+    },
+    {
+        "Method":  "DELETE",
+        "Path":  "/api/admin/courses/{id}",
+        "File":  "AdminCourseController.java"
+    },
+    {
+        "Method":  "GET",
+        "Path":  "/api/admin/events",
+        "File":  "AdminEventController.java"
+    },
+    {
+        "Method":  "POST",
+        "Path":  "/api/admin/events",
+        "File":  "AdminEventController.java"
+    },
+    {
+        "Method":  "DELETE",
+        "Path":  "/api/admin/events/{id}",
+        "File":  "AdminEventController.java"
+    },
+    {
+        "Method":  "DELETE",
+        "Path":  "/api/admin/posts/{id}",
+        "File":  "AdminController.java"
+    },
+    {
+        "Method":  "GET",
+        "Path":  "/api/admin/products",
+        "File":  "AdminCatalogController.java"
+    },
+    {
+        "Method":  "POST",
+        "Path":  "/api/admin/products",
+        "File":  "AdminCatalogController.java"
+    },
+    {
+        "Method":  "DELETE",
+        "Path":  "/api/admin/products/{id}",
+        "File":  "AdminCatalogController.java"
+    },
+    {
+        "Method":  "GET",
+        "Path":  "/api/admin/stats",
+        "File":  "AdminController.java"
+    },
+    {
+        "Method":  "GET",
+        "Path":  "/api/admin/users",
+        "File":  "AdminController.java"
+    },
+    {
+        "Method":  "PATCH",
+        "Path":  "/api/admin/users/{id}/role",
+        "File":  "AdminController.java"
+    },
+    {
+        "Method":  "POST",
+        "Path":  "/api/auth/change-password",
+        "File":  "AuthController.java"
+    },
+    {
+        "Method":  "POST",
+        "Path":  "/api/auth/login",
+        "File":  "AuthController.java"
+    },
+    {
+        "Method":  "POST",
+        "Path":  "/api/auth/register",
+        "File":  "AuthController.java"
+    },
+    {
+        "Method":  "GET",
+        "Path":  "/api/catalog/coupons",
+        "File":  "CatalogController.java"
+    },
+    {
+        "Method":  "GET",
+        "Path":  "/api/catalog/products",
+        "File":  "CatalogController.java"
+    },
+    {
+        "Method":  "GET",
+        "Path":  "/api/categories",
+        "File":  "LookupController.java"
+    },
+    {
+        "Method":  "GET",
+        "Path":  "/api/cities",
+        "File":  "LookupController.java"
+    },
+    {
+        "Method":  "GET",
+        "Path":  "/api/courses",
+        "File":  "ClassroomController.java"
+    },
+    {
+        "Method":  "POST",
+        "Path":  "/api/courses/{id}/complete",
+        "File":  "ClassroomController.java"
+    },
+    {
+        "Method":  "GET",
+        "Path":  "/api/events",
+        "File":  "EventController.java"
+    },
+    {
+        "Method":  "POST",
+        "Path":  "/api/events/{id}/join",
+        "File":  "EventController.java"
+    },
+    {
+        "Method":  "GET",
+        "Path":  "/api/leaderboard/monthly",
+        "File":  "GamificationController.java"
+    },
+    {
+        "Method":  "GET",
+        "Path":  "/api/me",
+        "File":  "UserController.java"
+    },
+    {
+        "Method":  "PATCH",
+        "Path":  "/api/me",
+        "File":  "UserController.java"
+    },
+    {
+        "Method":  "GET",
+        "Path":  "/api/posts",
+        "File":  "CommunityController.java"
+    },
+    {
+        "Method":  "POST",
+        "Path":  "/api/posts",
+        "File":  "CommunityController.java"
+    },
+    {
+        "Method":  "DELETE",
+        "Path":  "/api/posts/{id}",
+        "File":  "CommunityController.java"
+    },
+    {
+        "Method":  "PATCH",
+        "Path":  "/api/posts/{id}",
+        "File":  "CommunityController.java"
+    },
+    {
+        "Method":  "GET",
+        "Path":  "/api/posts/{id}/comments",
+        "File":  "CommunityController.java"
+    },
+    {
+        "Method":  "POST",
+        "Path":  "/api/posts/{id}/comments",
+        "File":  "CommunityController.java"
+    },
+    {
+        "Method":  "POST",
+        "Path":  "/api/posts/{id}/like",
+        "File":  "CommunityController.java"
+    },
+    {
+        "Method":  "POST",
+        "Path":  "/api/subscriptions",
+        "File":  "SubscriptionController.java"
+    },
+    {
+        "Method":  "GET",
+        "Path":  "/api/subscriptions/current",
+        "File":  "SubscriptionController.java"
+    },
+    {
+        "Method":  "GET",
+        "Path":  "/api/user/stats",
+        "File":  "GamificationController.java"
+    }
+]

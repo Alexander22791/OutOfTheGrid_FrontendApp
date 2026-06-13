@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@import "tailwindcss";
+
+:root {
+  --primary: #147a72;
+  --primary-light: #1a9c90;
+  --primary-dark: #0e5c56;
+
+  --accent: #1a9c90;
+  --accent-light: #2ab8ad;
+  --accent-dark: #147a72;
+
+  --background: #0D1117;
+  --background-light: #161B22;
+  --background-card: #1A1F26;
+
+  --surface: #21262D;
+  --surface-light: #30363D;
+
+  --text: #FFFFFF;
+  --text-primary: #FFFFFF;
+  --text-secondary: #8B949E;
+  --text-muted: #6E7681;
+
+  --success: #1a9c90;
+  --warning: #F0A500;
+  --error: #F85149;
+  --info: #58A6FF;
+
+  --category-annunci: #F0A500;
+  --category-domande: #58A6FF;
+  --category-risultati: #1a9c90;
+  --category-general: #8B949E;
+  --category-progetti: #E91E63;
+  --category-scambi: #9C27B0;
+
+  --border: #30363D;
+  --border-light: #484F58;
+
+  --overlay: rgba(0, 0, 0, 0.7);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-background-light: var(--background-light);
+  --color-background-card: var(--background-card);
+  --color-surface: var(--surface);
+  --color-surface-light: var(--surface-light);
+  --color-primary: var(--primary);
+  --color-primary-light: var(--primary-light);
+  --color-primary-dark: var(--primary-dark);
+  --color-accent: var(--accent);
+  --color-accent-light: var(--accent-light);
+  --color-accent-dark: var(--accent-dark);
+  --color-border: var(--border);
+  --color-border-light: var(--border-light);
+  --color-text: var(--text);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-error: var(--error);
+  --color-warning: var(--warning);
+  --color-info: var(--info);
+  --color-success: var(--success);
+  --color-category-annunci: var(--category-annunci);
+  --color-category-domande: var(--category-domande);
+  --color-category-risultati: var(--category-risultati);
+  --color-category-general: var(--category-general);
+  --color-category-progetti: var(--category-progetti);
+  --color-category-scambi: var(--category-scambi);
+  --color-overlay: var(--overlay);
+  --font-sans: 'Inter', system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--text-primary);
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background-light);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #484f58;
+}

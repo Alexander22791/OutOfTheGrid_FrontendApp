@@ -1,0 +1,16 @@
+  const handleAttend = async (eventId: string) => {
+    try {
+      await api.post(`/events/${eventId}/join`);
+      // Aggiorna localmente l'array attendees senza ricaricare tutto
+      setEvents((prev) =>
+        prev.map((e) =>
+          e.id === eventId
+            ? { ...e, attendees: e.attendees.includes(String(user?.id ?? '')) ? e.attendees : [...e.attendees, String(user?.id ?? '')] }
+            : e
+        )
+      );
+    } catch (error: unknown) {
+      const msg = (error as { response?: { data?: { message?: string } } })?.response?.data?.message;
+      alert(msg ?? 'Impossibile partecipare all\'evento');
+    }
+  };

@@ -1,0 +1,11 @@
+      const mappedPosts: Post[] = Array.isArray(postsRes.data)
+        ? postsRes.data.map((post: { id: string | number; title?: string; content?: string; category?: string; categoryName?: string; authorName?: string; createdAt?: string; likesCount?: number; imageUrl?: string; }) => ({
+            id: post.id, title: post.title, content: post.content ?? '',
+            category: post.category?.toUpperCase(),
+            categoryName: post.categoryName,
+            author_name: post.authorName,
+            created_at: post.createdAt, createdAt: post.createdAt,
+            imageUrl: post.imageUrl ?? undefined, image: post.imageUrl ?? undefined,
+            upvotes: Array.from({ length: Number(post.likesCount ?? 0) }, (_, i) => `like-${i}`),
+          }))
+        : [];
