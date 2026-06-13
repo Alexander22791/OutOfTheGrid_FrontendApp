@@ -17,10 +17,10 @@ interface EventItem {
   description?: string;
   date: string;
   time?: string;
-  attendees: number;           // conteggio dal backend
+  attendees: number;
   reward_points?: number;
   qrCode?: string;
-  isParticipating: boolean;    // dal backend — valore reale
+  isParticipating: boolean;
 }
 
 const MONTHS_IT = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
@@ -47,23 +47,19 @@ function QrModal({ qrCode, title, onClose }: { qrCode: string; title: string; on
         const QRCode = (await import('qrcode')).default;
         if (canvasRef.current) {
           await QRCode.toCanvas(canvasRef.current, qrCode, {
-            width: 280,
-            margin: 2,
+            width: 280, margin: 2,
             color: { dark: '#0d1117', light: '#ffffff' },
           });
         }
-      } catch (err) {
-        console.error('QR generation error:', err);
-      }
+      } catch (err) { console.error('QR error:', err); }
     };
     void generateQr();
   }, [qrCode]);
 
   const handleDownload = () => {
     if (!canvasRef.current) return;
-    const url = canvasRef.current.toDataURL('image/png');
     const a = document.createElement('a');
-    a.href = url;
+    a.href = canvasRef.current.toDataURL('image/png');
     a.download = `qr-${qrCode}.png`;
     a.click();
   };
@@ -74,25 +70,18 @@ function QrModal({ qrCode, title, onClose }: { qrCode: string; title: string; on
         <div className="mb-4 flex items-center justify-between">
           <div className="text-left">
             <p className="font-bold text-text-primary">{title}</p>
-            <p className="text-xs text-text-muted font-mono mt-0.5">{qrCode}</p>
+            <p className="mt-0.5 font-mono text-xs text-text-muted">{qrCode}</p>
           </div>
-          <button onClick={onClose} className="text-text-secondary hover:text-text-primary">
-            <IoClose size={22} />
-          </button>
+          <button onClick={onClose} className="text-text-secondary hover:text-text-primary"><IoClose size={22} /></button>
         </div>
-
-        <div className="flex justify-center mb-4">
+        <div className="mb-4 flex justify-center">
           <canvas ref={canvasRef} className="rounded-xl" />
         </div>
-
         <p className="mb-4 text-xs text-text-secondary">
-          Mostra o stampa questo QR code all'evento. Gli utenti lo scansionano con il QR Scanner per guadagnare punti.
+          Mostra o stampa questo QR all&apos;evento. Gli utenti iscritti lo scansionano con il QR Scanner per guadagnare i punti reward.
         </p>
-
-        <button
-          onClick={handleDownload}
-          className="flex w-full items-center justify-center gap-2 rounded-xl bg-accent py-3 text-sm font-medium text-white transition-colors hover:bg-accent-light"
-        >
+        <button onClick={handleDownload}
+          className="flex w-full items-center justify-center gap-2 rounded-xl bg-accent py-3 text-sm font-medium text-white transition-colors hover:bg-accent-light">
           <IoDownload size={18} /> Scarica PNG
         </button>
       </div>
@@ -165,8 +154,7 @@ export default function EventsPage() {
   const handleCreateEvent = async () => {
     if (!title.trim() || !date.trim()) { alert('Titolo e data sono obbligatori'); return; }
     if (currentCommunityId === 'national' || !currentCommunityId) {
-      alert('Seleziona una community locale dal feed prima di creare un evento');
-      return;
+      alert('Seleziona una community locale dal feed prima di creare un evento'); return;
     }
     const cityId = Number(currentCommunityId);
     if (!cityId || Number.isNaN(cityId)) { alert('Community locale non valida'); return; }
@@ -188,6 +176,7 @@ export default function EventsPage() {
     setActioningId(eventId);
     try {
       await api.post(`/events/${eventId}/join`);
+      // Partecipare NON dà punti — i punti si guadagnano solo scansionando il QR
       setEvents((prev) => prev.map((e) => e.id === eventId
         ? { ...e, isParticipating: true, attendees: e.attendees + 1 }
         : e));
@@ -258,6 +247,7 @@ export default function EventsPage() {
           {filteredEvents.map((event) => {
             const isPast = isPastEvent(event.date);
             const isActioning = actioningId === event.id;
+
             return (
               <div key={event.id}
                 className={['rounded-xl border bg-background-card p-4 transition-colors',
@@ -267,12 +257,11 @@ export default function EventsPage() {
                   <h3 className="flex-1 font-semibold text-text-primary">{event.title}</h3>
                   <div className="flex shrink-0 items-center gap-1.5">
                     {event.isParticipating && <IoCheckmarkCircle size={18} className="text-accent" />}
-                    {/* QR code — visibile solo ad admin/city manager */}
                     {canCreateEvents && event.qrCode && (
                       <button
                         onClick={() => setQrEvent({ code: event.qrCode!, title: event.title })}
                         className="rounded-lg p-1.5 text-text-secondary transition-colors hover:bg-accent/10 hover:text-accent"
-                        title="Mostra QR code">
+                        title="Mostra QR code evento">
                         <IoQrCode size={18} />
                       </button>
                     )}
@@ -301,30 +290,40 @@ export default function EventsPage() {
                     <IoPeople size={13} />{event.attendees} partecipanti
                   </span>
                   {!!event.reward_points && (
-                    <span className="font-medium text-warning">+{event.reward_points} pt</span>
+                    <span className="font-medium text-warning">
+                      +{event.reward_points} pt al check-in QR
+                    </span>
                   )}
                 </div>
 
                 {!isPast && (
-                  <div className="flex gap-2">
-                    {!event.isParticipating ? (
-                      <button
-                        onClick={() => void handleJoin(event.id)}
-                        disabled={isActioning}
-                        className="flex items-center gap-2 rounded-lg border border-accent bg-accent/10 px-4 py-1.5 text-sm font-medium text-accent transition-colors hover:bg-accent hover:text-white disabled:opacity-60">
-                        {isActioning
-                          ? <span className="h-4 w-4 animate-spin rounded-full border-2 border-accent/30 border-t-accent" />
-                          : 'Partecipa'}
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() => void handleLeave(event.id)}
-                        disabled={isActioning}
-                        className="flex items-center gap-2 rounded-lg border border-border px-4 py-1.5 text-sm font-medium text-text-secondary transition-colors hover:border-error hover:text-error disabled:opacity-60">
-                        {isActioning
-                          ? <span className="h-4 w-4 animate-spin rounded-full border-2 border-current/30 border-t-current" />
-                          : 'Annulla partecipazione'}
-                      </button>
+                  <div className="flex flex-col gap-1.5">
+                    <div className="flex gap-2">
+                      {!event.isParticipating ? (
+                        <button
+                          onClick={() => void handleJoin(event.id)}
+                          disabled={isActioning}
+                          className="flex items-center gap-2 rounded-lg border border-accent bg-accent/10 px-4 py-1.5 text-sm font-medium text-accent transition-colors hover:bg-accent hover:text-white disabled:opacity-60">
+                          {isActioning
+                            ? <span className="h-4 w-4 animate-spin rounded-full border-2 border-accent/30 border-t-accent" />
+                            : 'Partecipa'}
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => void handleLeave(event.id)}
+                          disabled={isActioning}
+                          className="flex items-center gap-2 rounded-lg border border-border px-4 py-1.5 text-sm font-medium text-text-secondary transition-colors hover:border-error hover:text-error disabled:opacity-60">
+                          {isActioning
+                            ? <span className="h-4 w-4 animate-spin rounded-full border-2 border-current/30 border-t-current" />
+                            : 'Annulla partecipazione'}
+                        </button>
+                      )}
+                    </div>
+                    {/* Istruzione check-in — mostrata solo dopo aver premuto Partecipa */}
+                    {event.isParticipating && !!event.reward_points && (
+                      <p className="text-xs text-text-muted">
+                        📱 Scansiona il QR code all&apos;evento per guadagnare {event.reward_points} punti
+                      </p>
                     )}
                   </div>
                 )}
@@ -346,7 +345,7 @@ export default function EventsPage() {
               </div>
               <button onClick={() => setShowCreateModal(false)} className="text-text-secondary"><IoClose size={22} /></button>
             </div>
-            <div className="p-5 space-y-1">
+            <div className="space-y-1 p-5">
               <Input label="Titolo *" placeholder="Nome evento" value={title} onChange={setTitle} />
               <Input label="Descrizione" placeholder="Descrizione" value={description} onChange={setDescription} multiline rows={3} />
               <div className="grid grid-cols-2 gap-3">
@@ -354,7 +353,7 @@ export default function EventsPage() {
                 <Input label="Ora" placeholder="HH:MM" value={time} onChange={setTime} />
               </div>
               <Input label="Luogo" placeholder="Indirizzo o link" value={location} onChange={setLocation} />
-              <Input label="Punti reward" placeholder="10" value={rewardPoints} onChange={setRewardPoints} type="number" />
+              <Input label="Punti reward (check-in QR)" placeholder="10" value={rewardPoints} onChange={setRewardPoints} type="number" />
               <div className="pt-2">
                 <Button title="Crea Evento" onPress={() => void handleCreateEvent()} loading={saving} className="w-full" />
               </div>
